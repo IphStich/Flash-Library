@@ -137,6 +137,28 @@ package iphstich.library
 			return ret;
 		}
 		
+		/**
+		 * Returns X if it is between A and B. Otherwise, returns either A or B (the closest to X)
+		 * @param	x
+		 * @param	a
+		 * @param	b
+		 * @return
+		 */
+		public static function capBetween (x:Number, a:Number, b:Number) : Number
+		{
+			if (a < b)
+			{
+				if (x <= a) return a;
+				if (x >= b) return b;
+			}
+			else
+			{
+				if (x >= a) return a;
+				if (x <= b) return b;
+			}
+			return x;
+		}
+		
 		public static function randomBetween (a:Number, b:Number) : Number
 		{
 			b -= a;
