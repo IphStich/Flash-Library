@@ -58,12 +58,31 @@ package iphstich.library
 		
 		private static function enterFrameHandler(e:Event):void
 		{
+			if (manualMode) return;
+			
+			equalize();
+		}
+		
+		private static var manualMode:Boolean = false;
+		public static function manualReset ():void 
+		{
+			manualMode = true;
+			
+			equalize();
+		}
+		
+		public static function automaticReset ():void
+		{
+			manualMode = false;
+		}
+		
+		private static function equalize () : void
+		{
 			const EQUALIZE:uint = KEY_UP | KEY_DOWN;
 			for (var i:* in keys)
 			{
 				keys[i] &= EQUALIZE;
 			}
-			
 		}
 		
 		/**
