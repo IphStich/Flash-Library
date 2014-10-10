@@ -157,6 +157,11 @@ package iphstich.library
 			return ret;
 		}
 		
+		public static function key (keycode:uint) : uint
+		{
+			return keys[keycode];
+		}
+		
 		public static function pressed(action:*):Boolean
 		{
 			return ((button(action) & KEY_PRESSED) != 0);
