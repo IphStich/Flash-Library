@@ -63,6 +63,10 @@ package iphstich.library
 		}
 		
 		private static var manualMode:Boolean = false;
+		/**
+		 * Turns off the automatic resetting of key press and release states.
+		 * This function also resets key states, and so will need to be called each game tick or frame.
+		 */
 		public static function manualReset ():void 
 		{
 			manualMode = true;
@@ -70,6 +74,9 @@ package iphstich.library
 			equalize();
 		}
 		
+		/**
+		 * See <b>manualReset</b>.
+		 */
 		public static function automaticReset ():void
 		{
 			manualMode = false;
