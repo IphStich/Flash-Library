@@ -18,9 +18,10 @@ package iphstich.library
 		public static const KEY_DOWN:uint = 4;
 		public static const KEY_PRESSED:uint = 8;
 		
-		private static var bindings:Dictionary;
-		private static var keys:Dictionary;
 		//private static var stage:DisplayObject;
+		
+		private static var bindings:Dictionary = new Dictionary();
+		private static var keys:Dictionary = new Dictionary();
 		private static var initialized:Boolean = false;
 		
 		/**
@@ -38,10 +39,8 @@ package iphstich.library
 			
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDown);
 			stage.addEventListener(KeyboardEvent.KEY_UP, keyUp);
-			stage.addEventListener(Event.EXIT_FRAME, enterFrameHandler, false, int.MIN_VALUE);
-			
-			bindings = new Dictionary();
-			keys = new Dictionary();
+			//stage.addEventListener(Event.EXIT_FRAME, enterFrameHandler, false, int.MIN_VALUE);
+			stage.addEventListener(Event.ENTER_FRAME, enterFrameHandler, false, int.MIN_VALUE);
 		}
 		
 		private static function keyDown(e:KeyboardEvent):void
@@ -101,6 +100,7 @@ package iphstich.library
 				var label:* = args[i];
 				var key:uint = args[i+1];
 				
+				keys[key] = KEY_UP;
 				if (bindings[label] == undefined) bindings[label] = new Vector.<uint>();
 				var bind:Vector.<uint> = bindings[label];
 				if (bind.indexOf(key) == -1) bind.push(key);
@@ -159,6 +159,7 @@ package iphstich.library
 		
 		public static function key (keycode:uint) : uint
 		{
+			if (keys[keycode] == undefined) return KEY_UP;
 			return keys[keycode];
 		}
 		
