@@ -57,7 +57,7 @@ package iphstich.library
 			
 			var clip:SoundClip = new SoundClip();
 			clip.source 	= source;
-			//clip.label 		= label;
+			clip.label 		= label;
 			clip.count 		= maxCount;
 			clip.category 	= category;
 			clip.volume 	= volumeMultiplier;
@@ -101,7 +101,7 @@ package iphstich.library
 			
 			var clip:SoundClip = new SoundClip();
 			clip.source 	= source;
-			//clip.label 		= label;
+			clip.label 		= label;
 			clip.loopTime 	= loopTime;
 			clip.category 	= CATEGORY_BGM;
 			clip.volume 	= volumeMultiplier;
@@ -113,9 +113,12 @@ package iphstich.library
 		 * This function will play a piece of background music.
 		 * @param	label		The label you assigned it when you added it
 		 * @param	playIntro	Whether or not to play the intro for the music, and then loop it, or just start off by looping it
+		 * @param	stopOld		If true, will stop whichever piece of BGM is currently playing before starting this piece
 		 */
-		public static function playBGM (label:*, playIntro:Boolean = true) : void
+		public static function playBGM (label:*, playIntro:Boolean = true, stopOld:Boolean = true) : void
 		{
+			if (stopOld) stop();
+			
 			var clip:SoundClip = (sounds[label] as SoundClip);
 			
 			if (playIntro)
@@ -128,6 +131,26 @@ package iphstich.library
 			else
 			{
 				loopBGM (clip);
+			}
+		}
+		
+		/**
+		 * Use this to immediately end a piece of BGM or a SFX.
+		 * @param	label	If <b>null</b> will stop whichever piece of BGM is currently playing. Use a label to check and cancel a specific piece of BGM.
+		 */
+		public static function stop (label:* = null) : void
+		{
+			var i:int;
+			var p:Playing;
+			for (i=playing.length-1; i>=0; --i)
+			//p in playing)
+			{
+				p = playing[i];
+				if ( p.clip.label == label || (label == null && p.clip.category == CATEGORY_BGM) )
+				{
+					p.channel.stop();
+					playing.splice(i, 1);
+				}
 			}
 		}
 		
@@ -267,7 +290,7 @@ import flash.media.SoundChannel;
 class SoundClip
 {
 	public var source:Sound;
-	//public var label:*;
+	public var label:*;
 	public var category:*;
 	public var volume:Number;
 	
